@@ -6,11 +6,17 @@
 #include <DataTypes/DataTypesNumber.h>
 #include <Columns/ColumnString.h>
 
+#include <Functions/Vectorization/Target.h>
+
+BEGIN_VECTORIZABLE
 
 namespace DB
 {
 
 using namespace GatherUtils;
+
+using Vectorization::TargetArch;
+using Vectorization::BuildTarget;
 
 namespace ErrorCodes
 {
@@ -27,14 +33,20 @@ struct NameEndsWith
     static constexpr auto name = "endsWith";
 };
 
+template <TargetArch, typename Name>
+class FunctionStartsEndsWithVImpl;
+
 template <typename Name>
-class FunctionStartsEndsWith : public IFunction
+using FunctionStartsEndsWith = FunctionStartsEndsWithVImpl<BuildTarget, Name>;
+
+template <typename Name>
+class FunctionStartsEndsWithVImpl<BuildTarget, Name> : public IFunction
 {
 public:
     static constexpr auto name = Name::name;
     static FunctionPtr create(const Context &)
     {
-        return std::make_shared<FunctionStartsEndsWith>();
+        return std::make_shared<FunctionStartsEndsWithVImpl>();
     }
 
     String getName() const override
@@ -137,3 +149,5 @@ private:
 };
 
 }
+
+END_VECTORIZABLE

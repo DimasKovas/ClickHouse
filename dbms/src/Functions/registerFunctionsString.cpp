@@ -1,5 +1,7 @@
 #include "config_functions.h"
 
+#include <Functions/Vectorization/Target.h>
+
 namespace DB
 {
 
@@ -23,7 +25,9 @@ void registerFunctionFormat(FunctionFactory &);
 void registerFunctionSubstring(FunctionFactory &);
 void registerFunctionCRC(FunctionFactory &);
 void registerFunctionAppendTrailingCharIfAbsent(FunctionFactory &);
+template <Vectorization::TargetArch Target>
 void registerFunctionStartsWith(FunctionFactory &);
+template <Vectorization::TargetArch Target>
 void registerFunctionEndsWith(FunctionFactory &);
 void registerFunctionTrim(FunctionFactory &);
 void registerFunctionRegexpQuoteMeta(FunctionFactory &);
@@ -54,8 +58,8 @@ void registerFunctionsString(FunctionFactory & factory)
     registerFunctionFormat(factory);
     registerFunctionSubstring(factory);
     registerFunctionAppendTrailingCharIfAbsent(factory);
-    registerFunctionStartsWith(factory);
-    registerFunctionEndsWith(factory);
+    registerFunctionStartsWith<Vectorization::TargetArch::Scalar>(factory);
+    registerFunctionEndsWith<Vectorization::TargetArch::Scalar>(factory);
     registerFunctionTrim(factory);
     registerFunctionRegexpQuoteMeta(factory);
 #if USE_BASE64
