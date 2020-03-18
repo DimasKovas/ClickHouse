@@ -60,6 +60,15 @@ void registerFunctionsString(FunctionFactory & factory)
     registerFunctionAppendTrailingCharIfAbsent(factory);
     registerFunctionStartsWith<Vectorization::TargetArch::Scalar>(factory);
     registerFunctionEndsWith<Vectorization::TargetArch::Scalar>(factory);
+// #if USE_DYNAMIC_TARGET
+#if 1
+    registerFunctionStartsWith<Vectorization::TargetArch::SSE4>(factory);
+    registerFunctionEndsWith<Vectorization::TargetArch::SSE4>(factory);
+    registerFunctionStartsWith<Vectorization::TargetArch::AVX>(factory);
+    registerFunctionEndsWith<Vectorization::TargetArch::AVX>(factory);
+    registerFunctionStartsWith<Vectorization::TargetArch::AVX2>(factory);
+    registerFunctionEndsWith<Vectorization::TargetArch::AVX2>(factory);
+#endif
     registerFunctionTrim(factory);
     registerFunctionRegexpQuoteMeta(factory);
 #if USE_BASE64

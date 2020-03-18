@@ -12,7 +12,7 @@ enum class TargetArch : int {
     AVX512 = 5,
 };
 
-#ifdef _USE_DYNAMIC_TARGET
+#ifdef USE_DYNAMIC_TARGET
     static constexpr bool UseDynamicTarget = true;
 #else
     static constexpr bool UseDynamicTarget = true;
@@ -27,15 +27,15 @@ enum class TargetArch : int {
     static constexpr const TargetArch BuildTarget = TargetArch::AVX2;
     #if defined(__clang__)
         #define BEGIN_VECTORIZABLE \
-            #pragma clang attribute push (__attribute__((target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2"))))
+            _Pragma("clang attribute push (__attribute__((target(\"sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2\"))))")
         #define END_VECTORIZABLE \
-            #pragma clang attribute pop
+            _Pragma("clang attribute pop")
     #elif defined(__GNUC__)
         #define BEGIN_VECTORIZABLE \
-            #pragma GCC push_options \
-            #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,tune=native")
+            _Pragma("GCC push_options") \
+            _Pragma("GCC target(\"sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,tune=native\")")
         #define END_VECTORIZABLE \
-            #pragma GCC pop_options
+            _Pragma("GCC pop_options")
     #else
         #error "Only CLANG and GCC compilers are supported"
     #endif
@@ -43,15 +43,15 @@ enum class TargetArch : int {
     static constexpr const TargetArch BuildTarget = TargetArch::AVX;
     #if defined(__clang__)
         #define BEGIN_VECTORIZABLE \
-            #pragma clang attribute push (__attribute__((target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx"))))
+            _Pragma("clang attribute push (__attribute__((target(\"sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx\"))))")
         #define END_VECTORIZABLE \
-            #pragma clang attribute pop
+            _Pragma("clang attribute pop")
     #elif defined(__GNUC__)
         #define BEGIN_VECTORIZABLE \
-            #pragma GCC push_options \
-            #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,tune=native")
+            _Pragma("GCC push_options") \
+            _Pragma("GCC target(\"sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,tune=native\")")
         #define END_VECTORIZABLE \
-            #pragma GCC pop_options
+            _Pragma("GCC pop_options")
     #else
         #error "Only CLANG and GCC compilers are supported"
     #endif
@@ -59,15 +59,15 @@ enum class TargetArch : int {
     static constexpr const TargetArch BuildTarget = TargetArch::SSE4;
     #if defined(__clang__)
         #define BEGIN_VECTORIZABLE \
-            #pragma clang attribute push (__attribute__((target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx"))))
+            _Pragma("clang attribute push (__attribute__((target(\"sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx\"))))")
         #define END_VECTORIZABLE \
-            #pragma clang attribute pop
+            _Pragma("clang attribute pop")
     #elif defined(__GNUC__)
         #define BEGIN_VECTORIZABLE \
-            #pragma GCC push_options \
-            #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,tune=native")
+            _Pragma("GCC push_options") \
+            _Pragma("GCC target(\"sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,tune=native\")")
         #define END_VECTORIZABLE \
-            #pragma GCC pop_options
+            _Pragma("GCC pop_options")
     #else
         #error "Only CLANG and GCC compilers are supported"
     #endif
